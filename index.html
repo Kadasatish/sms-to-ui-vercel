@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SMS Payment Status</title>
+  <link rel="stylesheet" href="public/style.css" />
+</head>
+<body>
+  <div class="container">
+    <h1>📩 SMS Payment Result</h1>
+    <div id="result" class="message">Waiting for payment...</div>
+  </div>
+
+  <script>
+    async function fetchStatus() {
+      try {
+        const res = await fetch("/api/process");
+        const data = await res.json();
+        document.getElementById("result").innerText = data.response || "No data yet";
+      } catch (err) {
+        document.getElementById("result").innerText = "Error fetching result.";
+      }
+    }
+
+    setInterval(fetchStatus, 3000); // Refresh every 3 seconds
+    fetchStatus();
+  </script>
+</body>
+</html>
